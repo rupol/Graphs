@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -13,33 +15,73 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # create the new key with the vertex ID
+        # set the value to an empty set (no edges yet)
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # find vertex v1 in our vertices
+        # add v2 to the set of edges
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create an empty queue and enqueue the starting_vertex
+        queue = [starting_vertex]
+        # create an empty set to track visited vertices
+        visited = set()
+
+        # while the queue is not empty
+        while queue:
+            # get current vertex (dequeue)
+            current = queue.pop(0)
+            # check if the current vertex has not been visited
+            if current not in visited:
+                # print the current vertex
+                print(current)
+                # mark the current vertex as visited
+                visited.add(current)
+
+                # queue up all the current vertex's neighbors (so we can visit them next)
+                queue.extend(self.get_neighbors(current))
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a stack with the starting_vertex
+        stack = [starting_vertex]
+        # create an empty set to track visited vertices
+        visited = set()
+
+        # while the stack is not empty
+        while stack:
+            # get current vertex (pop from stack)
+            current = stack.pop(-1)
+            # check if the current vertex has not been visited
+            if current not in visited:
+                # print the current vertex
+                print(current)
+                # mark the current vertex as visited
+                visited.add(current)
+
+                # push up all the current vertex's neighbors (so we can visit them next)
+                stack.extend(self.get_neighbors(current))
 
     def dft_recursive(self, starting_vertex):
         """
@@ -56,7 +98,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # create an empty queue and enqueue the PATH TO starting_vertex
+        # create an empty set to track visited vertices
+
+        # while the queue is not empty
+        # get current vertex PATH (dequeue)
+        # set the current vertex to the LAST element of the PATH
+        # check if the current vertex has not been visited
+
+        # check if the current vertex is destination_vertex
+        # if it is, stop and return
+
+        # mark the current vertex as visited
+        # add current vertex to a visited_set
+
+        # queue up NEW paths with each neighbor:
+        # take current path
+        # append the neighbor to it
+        # queue up NEW path
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,7 +123,6 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -75,6 +133,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
