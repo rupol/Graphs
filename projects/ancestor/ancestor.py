@@ -4,40 +4,22 @@
 # if tie: return lower numeric ID
 # if no parents: return -1
 
-
-class Graph:
-
-    def __init__(self):
-        self.vertices = {}
-
-    def add_vertex(self, vertex_id):
-        if vertex_id not in self.vertices:
-            self.vertices[vertex_id] = set()
-
-    def add_edge(self, v1, v2):
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-
-    def get_parents(self, vertex_id):
-        return self.vertices[vertex_id]
+def get_parents(ancestors, node):
+    # create list to store parents
+    parents = set()
+    # loop through ancestors
+    for (parent, child) in ancestors:
+        # if child is node
+        if child == node:
+            # add to list of parents
+            parents.add(parent)
+    return parents
 
 
 def earliest_ancestor(ancestors, starting_node):
-    # build the graph
-    graph = Graph()
-    # loop through ancestors pair by pair
-    for (parent, child) in ancestors:
-        # if parent doesn't already exist in graph
-        if parent not in graph.vertices:
-            # add parent
-            graph.add_vertex(parent)
-        # if child doesn't already exist in graph
-        if child not in graph.vertices:
-            # add child
-            graph.add_vertex(child)
-        # add edge (from child -> parent) - so we can work our way backward
-        graph.add_edge(child, parent)
-    # graph is now created
+    # if starting_node has no parents
+    if len(get_parents(ancestors, starting_node)) == 0:
+        return -1
 
     # traverse the graph, depth first
     # create stack w/starting vertex, visited, paths
@@ -57,19 +39,14 @@ def earliest_ancestor(ancestors, starting_node):
             # save to list of paths
             paths.append(current_path)
             # find all vertices connected to current vertex and add to stack
-            for next_vertex in graph.get_parents(current):
+            for next_vertex in get_parents(ancestors, current):
                 new_path = list(current_path)
                 new_path.append(next_vertex)
                 stack.append(new_path)
-    # paths are now all added
 
     # find longest path(s)
     # find the length of the longest path
     longest = max(map(len, paths))
-    # if starting_node has no parents
-    if longest == 1:
-        return -1
-
     longest_paths = [path for path in paths if len(path) == longest]
 
     # if more than one "earliest" ancestor (more than one longest path), return smallest ID
