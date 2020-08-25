@@ -1,11 +1,18 @@
+import random
+
+
 class User:
     def __init__(self, name):
         self.name = name
 
+
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
+        # maps IDs to User objects (lookup table for User Objects given IDs)
         self.users = {}
+        # Adjacency list
+        # maps user_ids to a list of other users (who are their friends)
         self.friendships = {}
 
     def add_friendship(self, user_id, friend_id):
@@ -45,8 +52,28 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(0, num_users):
+            self.add_user(f"User {i+1}")  # name doesn't really matter
 
         # Create friendships
+        # generate all possible friendships
+        # avoid duplicate friendships
+        possible_friendships = []
+        for user_id in self.users:
+            # user_id == user_id_2 cannot happen
+            # if friendship between user_id and user_id_2 already exists
+            # don't add friendship between user_id_2 and user_id
+            # to prevent this, only look at friendships for user ids higher than user
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        # randomly selected X friendships
+        # X = num_users * avg_friendships // 2, so we don't count each friendship twice since they are bidirectional
+        random.shuffle(possible_friendships)
+        num_friendships = num_users * avg_friendships // 2
+        for i in range(0, num_friendships):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -64,7 +91,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(5, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
