@@ -106,7 +106,12 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    sg.populate_graph(1000, 5)
+    # print(sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print(
+        f"Percentage of users in user 1's social network = {(len(connections)/1000)*100}%")
+    total = 0
+    for path in connections.values():
+        total += len(path)
+    print(f"Avg degree of separation = {total / len(connections) - 1}")
