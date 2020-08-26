@@ -63,8 +63,10 @@ class SocialGraph:
             # if friendship between user 1 and user 2 already exists
             # don't add friendship between user 2 and user 1
             # to prevent this, only look at friendships for user ids higher than user
-            for friend_id in range(user_id + 1, self.last_id + 1):
+            friend_id = user_id + 1
+            while friend_id < self.last_id + 1:
                 possible_friendships.append((user_id, friend_id))
+                friend_id += 1
 
         # randomly selected X friendships
         # X = num_users * avg_friendships // 2, so we don't count each friendship twice since they are bidirectional
@@ -106,11 +108,14 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(1000, 5)
+    num_users = 2000
+    average_friendships = 5
+    sg.populate_graph(num_users, average_friendships)
     # print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
+    user_id = 1
+    connections = sg.get_all_social_paths(user_id)
     print(
-        f"Percentage of users in user 1's social network = {(len(connections)/1000)*100}%")
+        f"Percentage of users in user {user_id}'s social network = {(len(connections)/num_users)*100}%")
     total = 0
     for path in connections.values():
         total += len(path)

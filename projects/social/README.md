@@ -60,4 +60,10 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
+   As the average number of friends per user increases, degree of separation decreases, which makes sense in a real life scenario. If I have 100 friends, I am much more likely to be connected to any given person in my network than if I had only 5 friends.
+
+   Conversely, as the number of users increases, the degree of separation increases, which also makes sense. If I have 100 friends in a 1000 person network, I will likely be connected to a larger percentage of people than if I had 100 friends in a 1 million person network.
+
+   [Facebook reported in 2016](https://research.fb.com/blog/2016/02/three-and-a-half-degrees-of-separation/) that each person in their network is separated from every other person by only 3.5 people. They found that as users have increased, the degree of separation has actually shrunk, though that might also be due to increasing user friendship saturation during that time.
+
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
